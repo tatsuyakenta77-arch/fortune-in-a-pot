@@ -15,8 +15,23 @@ FORTUNE = (
 
 OUTPUT_PATH = "/output/entry.txt"
 
+MAX_CHARS = 120
+MIN_CHARS = 1
+
+
+def validate_fortune(text: str) -> None:
+    """Enforce the gate: 1-120 characters, one non-blank line."""
+    if not MIN_CHARS <= len(text) <= MAX_CHARS:
+        raise ValueError(
+            f"fortune is {len(text)} characters, outside the "
+            f"{MIN_CHARS}-{MAX_CHARS} limit"
+        )
+    if not text.strip() or "\n" in text or "\r" in text:
+        raise ValueError("fortune must be one non-blank line")
+
 
 def main() -> None:
+    validate_fortune(FORTUNE)
     os.makedirs(os.path.dirname(OUTPUT_PATH), exist_ok=True)
     # No trailing newline: the gate counts every character, and the
     # fortune itself is exactly 112 characters.
